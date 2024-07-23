@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app_project/ui/home/list/setting_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app_project/ui/home/list/list_screen.dart';
 import 'package:todo_app_project/ui/home/setting/setting_screen.dart';
 
+import '../../core/provider/app_config_provider.dart';
 import '../../utils/color_resource/color_resources.dart';
 import 'new_task/new_task_sheet.dart';
 
@@ -19,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppConfigProvider>(context);
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -35,19 +40,26 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(2),
         shape: const CircularNotchedRectangle(),
         notchMargin: 12,
-        child: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.list_outlined), label: "List"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "Setting"),
-          ],
+        child: Theme(
+          data: provider.isDark()
+              ? Theme.of(context)
+                  .copyWith(canvasColor: ColorResources.primaryDarkColor)
+              : Theme.of(context)
+                  .copyWith(canvasColor: ColorResources.primaryLightColor),
+          child: BottomNavigationBar(
+            currentIndex: selectedIndex,
+            onTap: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.list_outlined), label: "List"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings), label: "Setting"),
+            ],
+          ),
         ),
       ),
       body: Column(
@@ -58,8 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
             color: ColorResources.primaryLightColor,
             height: MediaQuery.of(context).size.height * 0.2,
             child: Text(
-              "TODO App",
-              style: Theme.of(context).textTheme.bodyLarge,
+              AppLocalizations.of(context)!.appTitle,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: provider.isDark()
+                      ? ColorResources.blackText
+                      : ColorResources.white),
             ),
           ),
           Expanded(child: selectedIndex == 0 ? ListScreen() : SettingScreen()),

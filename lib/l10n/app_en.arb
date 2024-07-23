@@ -1,0 +1,17 @@
+{
+  "appTitle": "TODO App",
+  "suraName": "Sura Name",
+  "suraNumber": "Sura Number",
+  "hadethName": "Hadeth Name",
+  "quranIcon": "Quran",
+  "hadethIcon": "Hadeth",
+  "sebhaIcon": "Sebha",
+  "radioIcon": "Radio",
+  "language": "Language",
+  "arabic": "Arabic",
+  "english": "English",
+  "settingIcon": "Setting",
+  "mode": "Mode",
+  "darkMode": "Dark Mode",
+  "lightMode": "Light Mode"
+}

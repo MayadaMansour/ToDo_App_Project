@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../core/provider/app_config_provider.dart';
 import '../home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,23 +20,35 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    super.initState();
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
     });
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Image(
-          image: AssetImage(
-            "assets/images/splash_light.png",
-          ),
-          fit: BoxFit.fill,
-        ));
+    var provider = Provider.of<AppConfigProvider>(context);
+
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: provider.isDark()
+          ? const Image(
+              image: AssetImage(
+                "assets/images/splash_dark.png",
+              ),
+              fit: BoxFit.fill,
+            )
+          : const Image(
+              image: AssetImage(
+                "assets/images/splash_light.png",
+              ),
+              fit: BoxFit.fill,
+            ),
+    );
   }
 }

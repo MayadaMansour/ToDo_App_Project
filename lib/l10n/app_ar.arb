@@ -1,0 +1,17 @@
+{
+  "appTitle": "المهام",
+  "suraName": "أسم السورة",
+  "suraNumber": "رقم السوره",
+  "hadethName": "أسم الحديث",
+  "quranIcon": "القران",
+  "hadethIcon": "الحديث",
+  "sebhaIcon": "السبحه",
+  "radioIcon": "الراديو",
+  "language": "اللغه",
+  "arabic": "العربيه",
+  "english": "الإنجليزيه",
+  "settingIcon": "الإعدادات",
+  "mode": "الوضعيه",
+  "darkMode": "الوضع اليلى ",
+  "lightMode": "الوضع النهاري "
+}
