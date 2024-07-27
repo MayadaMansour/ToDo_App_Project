@@ -44,8 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           data: provider.isDark()
               ? Theme.of(context)
                   .copyWith(canvasColor: ColorResources.primaryDarkColor)
-              : Theme.of(context)
-                  .copyWith(canvasColor: ColorResources.primaryLightColor),
+              : Theme.of(context).copyWith(canvasColor: Colors.transparent),
           child: BottomNavigationBar(
             currentIndex: selectedIndex,
             onTap: (index) {

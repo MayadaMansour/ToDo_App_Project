@@ -22,7 +22,7 @@ class MyThemeData {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.transparent,
       selectedIconTheme:
           IconThemeData(size: 30, color: ColorResources.primaryLightColor),
       unselectedIconTheme: IconThemeData(size: 30, color: ColorResources.gray),
@@ -64,7 +64,7 @@ class MyThemeData {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.transparent,
       selectedIconTheme:
           IconThemeData(size: 30, color: ColorResources.primaryLightColor),
       unselectedIconTheme: IconThemeData(size: 30, color: ColorResources.white),

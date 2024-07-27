@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app_project/core/local/firebase_utlis.dart';
 import 'package:todo_app_project/utils/color_resource/color_resources.dart';
 
+import '../../../core/model/task_model.dart';
 import '../../../core/provider/app_config_provider.dart';
 
 class AddNewTask extends StatefulWidget {
@@ -120,13 +122,7 @@ class _AddNewTaskState extends State<AddNewTask> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Navigator.pop(context, {
-                      'title': title,
-                      'description': description,
-                      'date': selectDate,
-                    });
-                  }
+                  addTask();
                 },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all(const CircleBorder()),
@@ -155,5 +151,17 @@ class _AddNewTaskState extends State<AddNewTask> {
     setState(() {
       selectDate = chosenDate ?? selectDate;
     });
+  }
+
+  void addTask() {
+    if (_formKey.currentState!.validate()) {
+      Task task =
+          Task(title: title, description: description, dateTime: selectDate);
+      FireBaseUtlis.addTasksToFireBase(task).timeout(Duration(seconds: 1),
+          onTimeout: () {
+        print("Task Added Successfully");
+      });
+      Navigator.pop(context);
+    }
   }
 }

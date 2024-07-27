@@ -38,6 +38,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  firebase_core: ^2.27.0
+  cloud_firestore: ^4.15.8
 
 
 
