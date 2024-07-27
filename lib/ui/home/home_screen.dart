@@ -65,9 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: const EdgeInsets.all(50),
+             padding: const EdgeInsets.all(50),
             color: ColorResources.primaryLightColor,
-            height: MediaQuery.of(context).size.height * 0.2,
+            height: MediaQuery.of(context).size.height * 0.25,
             child: Text(
               AppLocalizations.of(context)!.appTitle,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
