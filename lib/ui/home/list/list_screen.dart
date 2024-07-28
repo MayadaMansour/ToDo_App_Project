@@ -15,7 +15,7 @@ class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 20,
+      itemCount: 1,
       itemBuilder: (context, index) {
         return Slidable(
             key: ValueKey(index),
