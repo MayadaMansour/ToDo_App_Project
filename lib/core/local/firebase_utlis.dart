@@ -17,4 +17,8 @@ class FireBaseUtlis {
     task.id = documentReference.id;
     return documentReference.set(task);
   }
+
+  static Future<void> deleteTasksToFireBase(Task task) {
+    return getTaskCollection().doc(task.id).delete();
+  }
 }

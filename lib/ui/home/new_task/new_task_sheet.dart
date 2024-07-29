@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app_project/core/local/firebase_utlis.dart';
-import 'package:todo_app_project/utils/color_resource/color_resources.dart';
 
+import '../../../core/local/firebase_utlis.dart';
 import '../../../core/model/task_model.dart';
 import '../../../core/provider/app_config_provider.dart';
+import '../../../core/provider/task_list_provider.dart';
+import '../../../utils/color_resource/color_resources.dart';
 
 class AddNewTask extends StatefulWidget {
   const AddNewTask({super.key});
@@ -17,12 +18,14 @@ class AddNewTask extends StatefulWidget {
 class _AddNewTaskState extends State<AddNewTask> {
   var selectDate = DateTime.now();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String title = " ";
-  String description = " ";
+  String title = "";
+  String description = "";
+  late TaskListProvider taskListProvider;
 
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
+    taskListProvider = Provider.of<TaskListProvider>(context);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.6,
@@ -109,7 +112,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                   showCalender();
                 },
                 child: Text(
-                  DateFormat.yMMMd().format(selectDate),
+                  DateFormat('yMMMd').format(selectDate),
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall
@@ -144,10 +147,11 @@ class _AddNewTaskState extends State<AddNewTask> {
 
   void showCalender() async {
     var chosenDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(const Duration(days: 356)));
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 356)),
+    );
     setState(() {
       selectDate = chosenDate ?? selectDate;
     });
@@ -155,12 +159,18 @@ class _AddNewTaskState extends State<AddNewTask> {
 
   void addTask() {
     if (_formKey.currentState!.validate()) {
-      Task task =
-          Task(title: title, description: description, dateTime: selectDate);
-      FireBaseUtlis.addTasksToFireBase(task).timeout(Duration(seconds: 1),
-          onTimeout: () {
-        print("Task Added Successfully");
-      });
+      Task task = Task(
+        title: title,
+        description: description,
+        dateTime: selectDate,
+      );
+      FireBaseUtlis.addTasksToFireBase(task).timeout(
+        const Duration(seconds: 1),
+        onTimeout: () {
+          print("Task Added Successfully");
+          taskListProvider.getAllTasksFromFireBase();
+        },
+      );
       Navigator.pop(context);
     }
   }
