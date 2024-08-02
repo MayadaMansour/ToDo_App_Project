@@ -53,7 +53,9 @@ class _ListItemState extends State<ListItem> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EditScreen()),
+              MaterialPageRoute(
+                builder: (context) => EditScreen(task: widget.task),
+              ),
             );
           },
           child: Card(

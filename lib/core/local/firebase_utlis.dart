@@ -21,4 +21,8 @@ class FireBaseUtlis {
   static Future<void> deleteTasksToFireBase(Task task) {
     return getTaskCollection().doc(task.id).delete();
   }
+
+  static Future<void> updateTaskInFireBase(Task task) {
+    return getTaskCollection().doc(task.id).set(task);
+  }
 }
