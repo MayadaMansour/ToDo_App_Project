@@ -16,12 +16,14 @@ void main() async {
   Platform.isAndroid
       ? await Firebase.initializeApp(
           options: const FirebaseOptions(
-              apiKey: "AIzaSyBIBMGaWg-zGCoJ9W1-O_Ev8-HQCJUkn2E",
+              apiKey: "AIzaSyCfvtNeBiuIcDJj38lzf2_uSzRJgD2kLl4",
               appId: "com.example.todo_app_project",
-              messagingSenderId: "85975781920",
-              projectId: "even-terra-421708"))
+              messagingSenderId: "706562427824",
+              projectId: "lateral-vision-421109"))
       : await Firebase.initializeApp();
   await FirebaseFirestore.instance.disableNetwork();
+
+  await Firebase.initializeApp();
 
   runApp(MultiProvider(
     providers: [

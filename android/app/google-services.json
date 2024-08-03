@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "85975781920",
-    "project_id": "even-terra-421708",
-    "storage_bucket": "even-terra-421708.appspot.com"
+    "project_number": "706562427824",
+    "project_id": "lateral-vision-421109",
+    "storage_bucket": "lateral-vision-421109.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:85975781920:android:65b0a80f06c84f5838e245",
+        "mobilesdk_app_id": "1:706562427824:android:7f10f78ae00f39b3616475",
         "android_client_info": {
           "package_name": "com.example.todo_app_project"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBIBMGaWg-zGCoJ9W1-O_Ev8-HQCJUkn2E"
+          "current_key": "AIzaSyCfvtNeBiuIcDJj38lzf2_uSzRJgD2kLl4"
         }
       ],
       "services": {

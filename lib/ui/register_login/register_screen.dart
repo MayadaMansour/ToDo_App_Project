@@ -7,21 +7,20 @@ import '../../utils/coustom_bottom.dart';
 import '../../utils/coustom_text_form.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController nameController = TextEditingController(text: "Mayada");
+  TextEditingController nameController = TextEditingController();
 
-  TextEditingController emailController =
-      TextEditingController(text: "Mayada@gmail.com");
+  TextEditingController emailController = TextEditingController();
 
-  TextEditingController phoneController =
-      TextEditingController(text: "0123456789");
+  TextEditingController phoneController = TextEditingController();
 
-  TextEditingController passwordController =
-      TextEditingController(text: "123456");
+  TextEditingController passwordController = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey();
 
@@ -77,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderColor: Colors.blue,
                         borderReduse: 10,
                         labelColor: Colors.grey,
-                        userTextColor: Colors.black,
+                        userTextColor: Colors.grey,
                         prefIcon: Icons.person,
                         prefIconColor: Colors.blue,
                         passwordText: false,
@@ -99,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderColor: Colors.blue,
                         borderReduse: 10,
                         labelColor: Colors.grey,
-                        userTextColor: Colors.black,
+                        userTextColor: Colors.grey,
                         prefIcon: Icons.email_outlined,
                         prefIconColor: Colors.blue,
                         passwordText: false,
@@ -121,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderColor: Colors.blue,
                         borderReduse: 10,
                         labelColor: Colors.grey,
-                        userTextColor: Colors.black,
+                        userTextColor: Colors.grey,
                         prefIcon: Icons.phone_android_outlined,
                         prefIconColor: Colors.blue,
                         passwordText: false,
@@ -144,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderColor: ColorResources.primaryLightColor,
                         borderReduse: 10,
                         labelColor: Colors.grey,
-                        userTextColor: ColorResources.primaryLightColor,
+                        userTextColor: Colors.grey,
                         suffixIcone: IconButton(
                             onPressed: () {
                               showPassword = !showPassword;
@@ -163,13 +162,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       coustomBottom(
                           textColor: ColorResources.white,
                           bgColor: ColorResources.primaryLightColor,
-                          onTap: () async {
-                            await registerUser();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeScreen()));
-                            setState(() {});
+                          onTap: () {
+                            registerUser();
                           },
                           text: "Register"),
                       Row(
@@ -205,13 +199,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ]));
   }
 
-  Future<void> registerUser() async {
+  void registerUser() async {
     if (formKey.currentState!.validate() == true) {
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+            'Create Account Sucssesfully',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.green,
+        ));
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -219,7 +220,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } catch (e) {
         print(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to register: ${e.toString()}')),
+          SnackBar(
+            content: Text(
+              'Failed to register: ${e.toString()}',
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
