@@ -122,10 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           textColor: ColorResources.white,
                           bgColor: ColorResources.primaryLightColor,
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeScreen()));
+                            loginUser();
                           },
                           text: "LOGIN"),
                       Row(
@@ -140,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              loginUser();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -167,6 +163,50 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // void loginUser() async {
+  //   if (formKey.currentState?.validate() == true) {
+  //     try {
+  //       final credential = await FirebaseAuth.instance
+  //           .signInWithEmailAndPassword(
+  //               email: emailController.text, password: passwordController.text);
+  //
+  //       var user = await FireBaseUtlis.readUserFromFireBase(
+  //           credential.user?.uid ?? " ");
+  //       if (user == null) {
+  //         return;
+  //       }
+  //       var authProvider =
+  //           Provider.of<AuthUserProvider>(context, listen: false);
+  //       authProvider.updateUser(user);
+  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //         content: Text(
+  //           'Login Sucssesfully',
+  //           style: TextStyle(color: Colors.white),
+  //         ),
+  //         backgroundColor: Colors.green,
+  //       ));
+  //
+  //       Navigator.pushAndRemoveUntil(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => HomeScreen(),
+  //           ), (route) {
+  //         return false;
+  //       });
+  //     } catch (e) {
+  //       print(e.toString());
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text(
+  //             'Failed to login: ${e.toString()}',
+  //             style: const TextStyle(color: Colors.white),
+  //           ),
+  //           backgroundColor: Colors.red,
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
   void loginUser() async {
     if (formKey.currentState?.validate() == true) {
       try {
@@ -176,7 +216,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
         var user = await FireBaseUtlis.readUserFromFireBase(
             credential.user?.uid ?? " ");
+
         if (user == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'User data not found.',
+                style: const TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+            ),
+          );
           return;
         }
         var authProvider =
@@ -184,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
         authProvider.updateUser(user);
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
-            'Login Sucssesfully',
+            'Login Successfully',
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Colors.green,

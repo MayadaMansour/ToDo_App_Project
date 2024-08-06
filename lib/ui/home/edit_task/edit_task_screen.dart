@@ -38,32 +38,67 @@ class _EditScreenState extends State<EditScreen> {
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
     taskListProvider = Provider.of<TaskListProvider>(context);
+    var authProvider = Provider.of<AuthUserProvider>(context);
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_sharp,
+              color: ColorResources.white,
+            )),
+        title: Text(
+          AppLocalizations.of(context)!.appTitle,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: provider.isDark()
+                    ? ColorResources.blackText
+                    : ColorResources.white,
+              ),
+        ),
+      ),
       body: Column(
         children: [
           Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             color: ColorResources.primaryLightColor,
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.25,
+            height: MediaQuery.of(context).size.height * 0.1,
             child: Row(
               children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.arrow_back_ios_sharp,
-                        color: provider.isDark()
-                            ? ColorResources.blackText
-                            : ColorResources.white)),
                 Padding(
-                  padding: const EdgeInsets.all(50),
-                  child: Text(
-                    AppLocalizations.of(context)!.appTitle,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: provider.isDark()
-                            ? ColorResources.blackText
-                            : ColorResources.white),
+                  padding: const EdgeInsets.only(bottom: 25),
+                  child: CircleAvatar(
+                    radius: 25,
+                    child: Image.asset("assets/images/profile.png"),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        authProvider.currentUser!.name!,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: provider.isDark()
+                                  ? ColorResources.blackText
+                                  : ColorResources.white,
+                            ),
+                      ),
+                      Text(
+                        authProvider.currentUser!.email!,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: provider.isDark()
+                                  ? ColorResources.blackText
+                                  : ColorResources.white,
+                            ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -92,11 +127,11 @@ class _EditScreenState extends State<EditScreen> {
                         Text(
                           "Edit Task",
                           style:
-                              Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: provider.isDark()
-                                        ? ColorResources.white
-                                        : ColorResources.blackText,
-                                  ),
+                          Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: provider.isDark()
+                                ? ColorResources.white
+                                : ColorResources.blackText,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(
@@ -151,11 +186,11 @@ class _EditScreenState extends State<EditScreen> {
                         Text(
                           "Select Time",
                           style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: provider.isDark()
-                                        ? ColorResources.white
-                                        : ColorResources.blackText,
-                                  ),
+                          Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: provider.isDark()
+                                ? ColorResources.white
+                                : ColorResources.blackText,
+                          ),
                         ),
                         const SizedBox(
                           height: 10,

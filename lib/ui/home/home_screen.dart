@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        authProvider.currentUser?.name ?? "",
+                        authProvider.currentUser!.name!,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: provider.isDark()
                                   ? ColorResources.blackText
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                       ),
                       Text(
-                        authProvider.currentUser?.email ?? "",
+                        authProvider.currentUser!.email!,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: provider.isDark()
                                   ? ColorResources.blackText

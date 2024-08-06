@@ -9,8 +9,8 @@ class MyUser {
   MyUser.fromFireStore(Map<String, dynamic>? data)
       : this(
           id: data!["id"],
-          name: data!["name"],
-          email: data!["email"],
+          name: data["name"],
+          email: data["email"],
         );
 
   Map<String, dynamic> toFireStore() {
