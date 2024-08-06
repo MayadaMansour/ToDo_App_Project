@@ -8,9 +8,9 @@ class TaskListProvider extends ChangeNotifier {
   List<Task> tasksList = [];
   DateTime selectDate = DateTime.now();
 
-  void getAllTasksFromFireBase() async {
+  void getAllTasksFromFireBase(String uId) async {
     QuerySnapshot<Task> querySnapshot =
-        await FireBaseUtlis.getTaskCollection().get();
+        await FireBaseUtlis.getTaskCollection(uId).get();
     tasksList = querySnapshot.docs.map((doc) => doc.data()).toList();
     tasksList = tasksList.where((task) {
       if (selectDate.day == task.dateTime.day &&
@@ -28,8 +28,8 @@ class TaskListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeSelectDate(DateTime newSelectDate) {
+  void changeSelectDate(DateTime newSelectDate, String uId) {
     selectDate = newSelectDate;
-    getAllTasksFromFireBase();
+    getAllTasksFromFireBase(uId);
   }
 }

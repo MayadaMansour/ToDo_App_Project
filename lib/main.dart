@@ -1,18 +1,22 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_project/core/provider/task_list_provider.dart';
+import 'package:todo_app_project/core/provider/user_provider.dart';
 import 'package:todo_app_project/ui/board/board_screen.dart';
+import 'package:todo_app_project/ui/home/home_screen.dart';
+import 'package:todo_app_project/ui/register_login/login_screen.dart';
+import 'package:todo_app_project/ui/register_login/register_screen.dart';
 import 'package:todo_app_project/utils/theme/theme.dart';
 
 import 'core/provider/app_config_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   Platform.isAndroid
       ? await Firebase.initializeApp(
           options: const FirebaseOptions(
@@ -21,7 +25,7 @@ void main() async {
               messagingSenderId: "706562427824",
               projectId: "lateral-vision-421109"))
       : await Firebase.initializeApp();
-  await FirebaseFirestore.instance.disableNetwork();
+  // await FirebaseFirestore.instance.enableNetwork();
 
   await Firebase.initializeApp();
 
@@ -30,6 +34,9 @@ void main() async {
       ChangeNotifierProvider(create: (context) => TaskListProvider()),
       ChangeNotifierProvider(
         create: (context) => AppConfigProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => AuthUserProvider(),
       ),
     ],
     child: const MyApp(),
@@ -54,6 +61,9 @@ class MyApp extends StatelessWidget {
           locale: Locale(provider.appLanguage),
           routes: {
             SplashScreen.routeName: (context) => const SplashScreen(),
+            HomeScreen.routeName: (context) => const HomeScreen(),
+            RegisterScreen.routeName: (context) => const RegisterScreen(),
+            LoginScreen.routeName: (context) => const LoginScreen(),
           },
           home: const SplashScreen(),
         );

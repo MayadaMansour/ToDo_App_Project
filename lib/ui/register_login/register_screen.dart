@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app_project/core/local/firebase_utlis.dart';
+import 'package:todo_app_project/core/model/user_model.dart';
+import 'package:todo_app_project/core/provider/user_provider.dart';
 import 'package:todo_app_project/ui/home/home_screen.dart';
 
 import '../../utils/color_resource/color_resources.dart';
@@ -8,6 +12,8 @@ import '../../utils/coustom_text_form.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  static const String routeName = "register_screen";
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -202,10 +208,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void registerUser() async {
     if (formKey.currentState!.validate() == true) {
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
+        MyUser user = MyUser(
+            id: credential.user?.uid ?? " ",
+            name: nameController.text,
+            email: emailController.text);
+
+        var authProvider =
+            Provider.of<AuthUserProvider>(context, listen: false);
+        authProvider.updateUser(user);
+        await FireBaseUtlis.addUserToFireBase(user);
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
             'Create Account Sucssesfully',
@@ -213,10 +229,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           backgroundColor: Colors.green,
         ));
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
+
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       } catch (e) {
         print(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(

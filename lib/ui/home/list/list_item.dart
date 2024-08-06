@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_project/core/local/firebase_utlis.dart';
 import 'package:todo_app_project/core/model/task_model.dart';
+import 'package:todo_app_project/core/provider/user_provider.dart';
 
 import '../../../core/provider/task_list_provider.dart';
 import '../../../utils/color_resource/color_resources.dart';
@@ -24,6 +25,7 @@ class _ListItemState extends State<ListItem> {
   @override
   Widget build(BuildContext context) {
     var listProvider = Provider.of<TaskListProvider>(context);
+    var authProvider = Provider.of<AuthUserProvider>(context);
 
     return Container(
       margin: const EdgeInsets.all(12),
@@ -34,10 +36,21 @@ class _ListItemState extends State<ListItem> {
           children: [
             SlidableAction(
               onPressed: (context) {
-                FireBaseUtlis.deleteTasksToFireBase(widget.task)
-                    .timeout(const Duration(milliseconds: 500), onTimeout: () {
+                FireBaseUtlis.deleteTasksToFireBase(
+                        widget.task, authProvider.currentUser!.id!)
+                    .then((value) {
                   print("Task Deleted");
-                  listProvider.getAllTasksFromFireBase();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Task Deleted',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  listProvider
+                      .getAllTasksFromFireBase(authProvider.currentUser!.id!);
                 });
               },
               backgroundColor: Colors.red,

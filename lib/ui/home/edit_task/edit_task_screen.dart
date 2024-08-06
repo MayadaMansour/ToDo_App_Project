@@ -7,6 +7,7 @@ import '../../../core/local/firebase_utlis.dart';
 import '../../../core/model/task_model.dart';
 import '../../../core/provider/app_config_provider.dart';
 import '../../../core/provider/task_list_provider.dart';
+import '../../../core/provider/user_provider.dart';
 import '../../../utils/color_resource/color_resources.dart';
 
 class EditScreen extends StatefulWidget {
@@ -223,13 +224,22 @@ class _EditScreenState extends State<EditScreen> {
         description: description,
         dateTime: selectDate,
       );
-      FireBaseUtlis.updateTaskInFireBase(updatedTask).timeout(
-        const Duration(seconds: 1),
-        onTimeout: () {
-          print("Task Updated Successfully");
-          taskListProvider.getAllTasksFromFireBase();
-        },
-      );
+      var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
+      FireBaseUtlis.updateTaskInFireBase(
+              updatedTask, authProvider.currentUser!.id!)
+          .then((value) {
+        print("Task Edit Successfully");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Task Edit Successfully',
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+        taskListProvider.getAllTasksFromFireBase(authProvider.currentUser!.id!);
+      });
       Navigator.pop(context);
     }
   }

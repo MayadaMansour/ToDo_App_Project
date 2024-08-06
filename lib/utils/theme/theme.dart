@@ -31,7 +31,7 @@ class MyThemeData {
       bodyLarge: GoogleFonts.poppins(
         color: ColorResources.white,
         fontWeight: FontWeight.bold,
-        fontSize: 22,
+        fontSize: 24,
       ),
       bodyMedium: GoogleFonts.poppins(
         color: ColorResources.white,

@@ -1,14 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app_project/core/local/firebase_utlis.dart';
 import 'package:todo_app_project/ui/home/home_screen.dart';
 import 'package:todo_app_project/ui/register_login/register_screen.dart';
 import 'package:todo_app_project/utils/color_resource/color_resources.dart';
 
+import '../../core/provider/user_provider.dart';
 import '../../utils/coustom_bottom.dart';
 import '../../utils/coustom_text_form.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
+
+  static const String routeName = "Login_screen";
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -168,6 +173,15 @@ class _LoginScreenState extends State<LoginScreen> {
         final credential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
                 email: emailController.text, password: passwordController.text);
+
+        var user = await FireBaseUtlis.readUserFromFireBase(
+            credential.user?.uid ?? " ");
+        if (user == null) {
+          return;
+        }
+        var authProvider =
+            Provider.of<AuthUserProvider>(context, listen: false);
+        authProvider.updateUser(user);
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
             'Login Sucssesfully',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app_project/core/provider/user_provider.dart';
 
 import '../../../core/local/firebase_utlis.dart';
 import '../../../core/model/task_model.dart';
@@ -25,6 +26,7 @@ class _AddNewTaskState extends State<AddNewTask> {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AppConfigProvider>(context);
+    var authProvider = Provider.of<AuthUserProvider>(context);
     taskListProvider = Provider.of<TaskListProvider>(context);
 
     return Container(
@@ -164,13 +166,22 @@ class _AddNewTaskState extends State<AddNewTask> {
         description: description,
         dateTime: selectDate,
       );
-      FireBaseUtlis.addTasksToFireBase(task).timeout(
-        const Duration(seconds: 1),
-        onTimeout: () {
-          print("Task Added Successfully");
-          taskListProvider.getAllTasksFromFireBase();
-        },
-      );
+      var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
+      FireBaseUtlis.addTasksToFireBase(task, authProvider.currentUser!.id!)
+          .then((value) {
+        print("Task Added Successfully");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Task Added Successfully',
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+        taskListProvider.getAllTasksFromFireBase(authProvider.currentUser!.id!);
+      });
+
       Navigator.pop(context);
     }
   }
