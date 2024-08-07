@@ -25,9 +25,23 @@ void main() async {
               messagingSenderId: "706562427824",
               projectId: "lateral-vision-421109"))
       : await Firebase.initializeApp();
-  // await FirebaseFirestore.instance.enableNetwork();
-
   await Firebase.initializeApp();
+
+  // await CachHelper.init();
+  // Widget widget;
+  // dynamic onBoarding = CachHelper.getData(key: "onBoarding");
+  // final authProvider = AuthUserProvider();
+  // String? userId =
+  //     authProvider.currentUser?.id;
+  // if (onBoarding != null) {
+  //   if (userId != null) {
+  //     widget = const HomeScreen();
+  //   } else {
+  //     widget = const LoginScreen();
+  //   }
+  // } else {
+  //   widget = const SplashScreen();
+  // }
 
   runApp(MultiProvider(
     providers: [
@@ -39,12 +53,18 @@ void main() async {
         create: (context) => AuthUserProvider(),
       ),
     ],
-    child: const MyApp(),
+    child: MyApp(
+        // startWidget: widget
+        ),
   ));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  // MyApp({super.key, this.startWidget});
+
+  // Widget? startWidget;
 
   @override
   Widget build(BuildContext context) {

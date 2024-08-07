@@ -179,8 +179,11 @@ class _AddNewTaskState extends State<AddNewTask> {
             backgroundColor: Colors.green,
           ),
         );
+
         taskListProvider.getAllTasksFromFireBase(authProvider.currentUser!.id!);
       });
+      Provider.of<TaskListProvider>(context, listen: false)
+          .getAllTasksFromFireBase(authProvider.currentUser!.id!);
 
       Navigator.pop(context);
     }

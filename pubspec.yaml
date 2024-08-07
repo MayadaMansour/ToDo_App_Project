@@ -44,6 +44,8 @@ dependencies:
   easy_date_timeline:
   fluttertoast: ^8.2.2
   firebase_auth: any
+  shared_preferences:
+
 
 
 

@@ -20,10 +20,7 @@ class _ListScreenState extends State<ListScreen> {
     var listProvider = Provider.of<TaskListProvider>(context);
     var authProvider = Provider.of<AuthUserProvider>(context);
     if (listProvider.tasksList.isEmpty) {
-      listProvider.getAllTasksFromFireBase(authProvider.currentUser?.id ?? "");
-      // setState(() {
-      //
-      // });
+      listProvider.getAllTasksFromFireBase(authProvider.currentUser!.id!);
     }
     return Column(
       children: [
